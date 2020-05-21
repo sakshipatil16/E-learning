@@ -1,0 +1,87 @@
+{% extends "classroom/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="progress">
+  <div class="progress-bar indigo  lighten-1" role="progressbar" style="width: {{ percent }}%" aria-valuenow="{{ count_sol }}" aria-valuemin="0" aria-valuemax="0"></div>
+</div>
+
+<p class="center"
+{% if percent >= 50 %} style="color:green"
+{% else %} style="color:red"
+{% endif %}
+>
+  Your progress is: {{ percent }} %
+</p>
+<h1>{{ item }}</h1>
+
+
+{{ ass}}
+
+{% for ass_sol in assignment_sol %}
+{{ ass_sol.ass.topic }}:
+{% if ass_sol.is_completed is True %}
+completed
+
+{% else %}
+not completed
+{% endif %}
+<br>
+{% endfor %}
+<hr>
+<br>
+
+<div class="row">
+  {% for ass in assignment %}
+  <div class="col-md-5 mb-4">
+  
+  <div class="content-section">
+    <div class="align-middle" ><a href="{{ ass.pdf.url }}" class="btn btn-info sm" target="_blank">View assignment</a></div>
+    <br>
+    
+   <p><b>Chapter:</b> {{ ass.item }}</p>
+   <p  class="align-middle"><b>Topic:</b> {{ ass.topic }}</p>
+    <p  class="align-middle"><b>Description:</b> {{ ass.description }}</p>
+    
+    <p class="align-middle"> <b>Assignment created:</b> {{ ass.created_date }}</td>
+    <br>
+    <br>
+    <td class="text-right ">
+      <a href="{% url 'sol_ass_stu' ass.pk %}" class="btn btn-primary active float-right" > Submit Assignment</a>
+    
+    <br>
+    <br>
+  </div>
+  </div>    
+  {% endfor %}
+  </div>
+  
+  <div class="row">
+{% for video in videos %}
+<div class="col-md-4 mb-4">
+<div class="content-section">
+<p >Video</p>
+<p><b>Chapter:</b> {{ video.item }}</p>
+<p  class="align-middle"><b>Topic:</b> {{ video.topic }}</p>
+
+<br>
+<a href="{% url 'ass_video' video.pk %}" class="btn btn-primary active float-right">Start Video</a>
+<br><br>
+</div></div>
+{% endfor %}
+</div>
+
+<div class="row">
+{% for quiz in quizzes %}
+<div class="col-md-4 mb-4">
+  <div class="content-section">
+    <p>Quiz</p>
+    <p><b>Chapter:</b> {{ quiz.item }}</p>
+    <p  class="align-middle"><b>Topic:</b>  {{quiz.topic }}</p>
+  
+<a href="{% url 'take_quiz_ass' quiz.pk %}" class="btn btn-primary active float-right">Start Quiz</a>
+<br><br>
+  </div></div>
+{% endfor %}
+</div>
+{% endblock content %}

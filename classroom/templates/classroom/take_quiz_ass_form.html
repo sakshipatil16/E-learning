@@ -1,0 +1,63 @@
+
+{% extends "classroom/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<center>
+Time left
+<form name="counter"><input type="text" size="8" 
+    name="d2"></form> 
+    
+    <script> 
+    // 
+     var milisec=0; 
+     var seconds={{ quiz.time }}; 
+     document.counter.d2.value={{ quiz.time }}; 
+    
+    
+    
+    function display()
+    { 
+     if (milisec<=0){ 
+        milisec=60 
+        seconds-=1 
+     } 
+     if (seconds<=-1){ 
+        milisec=0 
+        seconds+=1 
+     } 
+     else 
+        milisec-=1 
+        document.counter.d2.value=seconds+"."+milisec 
+        setTimeout("display()",1000) 
+    } 
+   display() 
+   
+    </script>
+  </center>
+<br>
+<div class="content-section">
+
+  <form action="./result" method="post">
+    <h2 class="mb-3">{{ quiz.topic }}</h2>
+    <hr>
+    {% for question in questions %}
+    <p class="lead">{{ forloop.counter }}.  {{ question.text }}</p>
+    {% for answer in answers %}
+    {% if answer.question.text == question.text %}
+    <p><input type="radio" name="{{ answer.question.id }}" value="{{ answer.text }}" required="True"> {{answer.text}}</p>
+    {% endif %}
+   
+    {% endfor %}
+    {% endfor %}
+   
+    
+  
+  
+      {% csrf_token %}
+     
+      <button type="submit" class="btn btn-primary active mx-auto">Submit</button>
+    </form>
+  </div>
+    {% endblock content %}
+  
+  

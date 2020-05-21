@@ -1,0 +1,38 @@
+{% extends "classroom/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br>
+<div class="row">   
+{% for subject in subjects %}
+<div class="col-md-4 mb-4">
+
+{% if subject.is_completed is True and subject.user == request.user %}
+<div class="card-up ass_comp">
+{% else %}
+<div class="card-up ass">
+{% endif %}
+<h1>
+    <a class="article-tit" href="{% url 'detail_ass' subject.pk %}">
+{{ subject.subject }}
+</h1>
+ 
+<br>
+{{ subject.su.count }} chapters
+<br>
+
+{{ subject.sub_ass.count }} Assignments
+{{ subject.sub_vid.count }} video
+{{ subject.sub_q_ass.count }} Quizzes
+<br>
+{% if subject.is_completed is True and subject.user == request.user %}
+<b>Great Work!</b>
+<br>
+{% else %}
+<h4 class="article-tit"> Due: {{ subject.end_date  }}</h4>
+{% endif %}
+</a>
+</div></div>
+
+{% endfor %}
+</div>
+{% endblock content %}

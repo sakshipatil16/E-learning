@@ -1,0 +1,28 @@
+{% extends "classroom/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br>
+<div class="row">   
+{% for subject in subjects %}
+<div class="col-md-4 mb-4">
+
+    <div class="card-up grad ">
+   
+<h1>
+    <a class="article-tit" href="{% url 'detail' subject.pk %}">
+{{ subject.subject }}
+</a>
+</h1>
+{{ subject.sub.count }} chapters
+<br>
+{{ subject.subj.count }} Assignments
+{{ subject.video.count }} video
+{{ subject.sub_q.count }} Quizzes
+<br>
+<br>
+</div>
+</div>
+
+{% endfor %}
+</div>
+{% endblock content %}
